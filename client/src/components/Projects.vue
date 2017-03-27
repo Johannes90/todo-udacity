@@ -1,5 +1,5 @@
 <template>
-    <md-layout md-flex>
-        <appTodoList></appTodoList>
+    <md-layout>
+        <router-view></router-view>
     </md-layout>
 </template>

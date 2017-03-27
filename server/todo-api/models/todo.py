@@ -7,13 +7,20 @@ class TodoModel(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     desc = db.Column(db.String(200))
     done = db.Column(db.Boolean())
+    created_at = db.Column(db.TIMESTAMP, server_default=db.func.current_timestamp(), nullable=False)
+    updated_at = db.Column(db.TIMESTAMP, server_default=db.func.current_timestamp(), onupdate=db.func.current_timestamp(), nullable=False)
 
-    def __init__(self, desc, done):
+    project_id = db.Column(db.Integer, db.ForeignKey('projects.id'))
+    project = db.relationship('ProjectModel')
+
+    def __init__(self, desc, done, project_id=None):
         self.desc = desc
         self.done = done
+        self.project_id = project_id
+        
 
     def json(self):
-        return {'id': self.id, 'desc': self.desc, 'done': self.done}
+        return {'id': self.id, 'desc': self.desc, 'done': self.done, 'project_id': self.project_id}
 
     @classmethod
     def find_by_id(cls, id):

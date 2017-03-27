@@ -10,6 +10,13 @@ import store from './store/store';
 
 Vue.use(VueMaterial)
 
+Vue.material.registerTheme('default', {
+  primary: 'blue',
+  accent: 'red',
+  warn: 'red',
+  background: 'white'
+})
+
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

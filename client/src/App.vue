@@ -1,10 +1,7 @@
 <template>
   <div id="app">
     <appHeader></appHeader>
-    <md-layout md-gutter>
-      <sideMenu></sideMenu>
-      <router-view></router-view>
-    </md-layout>
+    <router-view></router-view>
   </div>
 </template>
 
@@ -19,6 +16,7 @@
     },
     created() {
       this.$store.dispatch('initTodos');
+      this.$store.dispatch('initProjects');
     }
   }
 </script>

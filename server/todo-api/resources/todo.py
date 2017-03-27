@@ -48,19 +48,24 @@ class Todos(Resource):
                         type=str,
                         required=True,
                         help="This field cannot be left blank!"
-                        )
+                        ),
+    parser.add_argument('project_id',
+                    type=int,
+                    required=True,
+                    help="This field cannot be left blank!"
+                    )
 
     def get(self):
         return {'todos': list(map(lambda x: x.json(), TodoModel.query.all()))}
 
     def post(self):
         data = Todos.parser.parse_args()
-
-        todo = TodoModel(data['desc'], 'false')
+        print(data)
+        todo = TodoModel(data['desc'], 'false', data['project_id'])
       
         try:
             todo.save_to_db()
         except:
-            return {"message": "An error occurred inserting the item."}, 500
+            return {"message": "An error occurred inserting the todo."}, 500
 
         return todo.json(), 201

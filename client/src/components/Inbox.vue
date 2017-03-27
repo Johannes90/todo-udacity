@@ -1,18 +1,19 @@
 <template>
-    <md-layout md-flex>
-        <appNewTodo></appNewTodo>
-        <appTodoList></appTodoList>
+    <md-layout md-gutter>
+        <sideMenu></sideMenu>
+        <md-layout md-flex>
+            <appTodoList></appTodoList>
+        </md-layout>
     </md-layout>
 </template>
 
 <script>
-    import TodoList from "./TodoList.vue"
-    import NewTodo from "./NewTodo.vue"
-
+    import TodoList from "./todo/TodoList.vue"
+    import SideMenu from './SideMenu.vue';
     export default {
         components: {
             appTodoList: TodoList,
-            appNewTodo: NewTodo
+            sideMenu: SideMenu
         }
     }
 </script>

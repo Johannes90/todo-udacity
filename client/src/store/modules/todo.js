@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Vue from 'vue';
 
 const state = {
     todos: []
@@ -11,9 +12,15 @@ const mutations = {
     'ADD_TODO' (state, { todo })  {
         state.todos.push(todo)
     },
-    'DELETE_TODO' (state, { todo }) {
+    'DELETE_TODO' (state, todo) {
         let index = state.todos.indexOf(todo)
         state.todos.splice(index,1);
+    },
+    'EDIT_TODO' (state, todo) {
+        Vue.set(state.todos, state.todos.indexOf(todo), todo)
+    },
+    'COMPLETE_TODO' (state, todo) {
+        Vue.set(state.todos, state.todos.indexOf(todo), todo)
     }
 }
 
@@ -24,12 +31,13 @@ const actions = {
             commit('SET_TODOS', response.data.todos);
         }); 
     },
-    addTodo: ({commit}, desc) => {
+    addTodo: ({commit}, { desc, project_id }) => {
+        console.log(project_id);
         axios.post('http://127.0.0.1:5000/todos', {
-            desc: desc.newTodo
+            desc: desc,
+            project_id: project_id
         })
         .then(function (response) {
-            console.log(response.data)
             commit('ADD_TODO', {todo: response.data});
         });
     },
@@ -37,14 +45,34 @@ const actions = {
         console.log(todo.id)
         axios.delete('http://127.0.0.1:5000/todo/' + todo.id)
         .then(function (response) {
-            commit('DELETE_TODO', { todo: todo });
-        })
+            commit('DELETE_TODO', todo);
+        });
+    },
+    editTodo: ({ commit }, todo) => {
+        axios.put('http://127.0.0.1:5000/todo/' + todo.id, {
+            desc: todo.desc,
+            done: todo.done
+        }).then(function (response) {
+            console.log(todo)
+            commit('EDIT_TODO', todo)
+        });
+    },
+    completeTodo: ({ commit }, todo) => {
+        axios.put('http://127.0.0.1:5000/todo/' + todo.id, {
+            desc: todo.desc,
+            done: todo.done
+        }).then(function (response) {
+            console.log(todo)
+            commit('COMPLETE_TODO', todo)
+        });
     }
 }
 
 const getters = {
     todos: state => {
-        return state.todos;
+        return state.todos.sort(function (a,b) {
+            return a.id - b.id
+        });
     }
 }
 
