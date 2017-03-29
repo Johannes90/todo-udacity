@@ -3,7 +3,7 @@ from models.user import UserModel
 
 class UserRegister(Resource):
     """
-    Class handeling all user authentication and authorization.
+    Class handling all user signups.
     """
 
     parser = reqparse.RequestParser()

@@ -18,9 +18,22 @@ const mutations = {
     }
 }
 
+const actions = {
+    register: ({commit}, user) => {
+        axios.post('http://127.0.0.1:5000/register', {
+            username: user.email,
+            password: user.password
+        })
+        .then(function (response) {
+            commit('LOGIN_SUCCESS');
+            console.log(response);
+        });
+    }
+}
 
 
 export default {
     state,
-    mutations
+    mutations,
+    actions
 }
