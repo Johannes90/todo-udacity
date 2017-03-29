@@ -2,6 +2,9 @@ from flask_restful import Resource, reqparse
 from models.user import UserModel
 
 class UserRegister(Resource):
+    """
+    Class handeling all user authentication and authorization.
+    """
 
     parser = reqparse.RequestParser()
     parser.add_argument('username',

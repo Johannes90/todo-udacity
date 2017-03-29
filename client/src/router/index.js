@@ -5,6 +5,7 @@ import Inbox from '@/components/Inbox'
 import Projects from '@/components/Projects'
 import ProjectView from '@/components/project/ProjectView'
 import Register from '@/components/Register'
+import Login from '@/components/Login'
 
 Vue.use(Router)
 
@@ -25,6 +26,11 @@ export default new Router({
             path: '/register',
             name: 'Register',
             component: Register
+        },
+        {
+            path: '/login',
+            name: 'login',
+            component: Login
         },    
         {
             path: '/project',
