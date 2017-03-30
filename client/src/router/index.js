@@ -6,6 +6,7 @@ import Projects from '@/components/Projects'
 import ProjectView from '@/components/project/ProjectView'
 import Register from '@/components/Register'
 import Login from '@/components/Login'
+import store from '../store/store';
 
 Vue.use(Router)
 
@@ -20,7 +21,14 @@ export default new Router({
         {
             path: '/inbox',
             name: 'Inbox',
-            component: Inbox
+            component: Inbox,
+            beforeEnter: (to, from, next) => {
+                if(store.getters.isLoggedIn) {
+                    next();
+                } else {
+                    next('/login');
+                }
+            }
         },
         {
             path: '/register',
@@ -38,7 +46,14 @@ export default new Router({
             component: Projects,
             children: [
                 {path:':id', component: ProjectView}
-            ]
+            ],
+            beforeEnter: (to, from, next) => {
+                if(store.getters.isLoggedIn) {
+                    next();
+                } else {
+                    next('/login');
+                }
+            }
         } 
     ]
 })

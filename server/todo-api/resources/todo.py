@@ -1,4 +1,5 @@
 from models.todo import TodoModel
+from models.project import ProjectModel
 from flask_restful import Resource, reqparse
 
 class Todo(Resource):
@@ -33,7 +34,7 @@ class Todo(Resource):
         todo = TodoModel.find_by_id(id)
 
         if TodoModel.find_by_id(id):
-            todo.desc = data['desc'] 
+            todo.desc = data['desc']
             todo.done = data['done']
             todo.save_to_db()
             return todo.json()
@@ -62,7 +63,7 @@ class Todos(Resource):
         data = Todos.parser.parse_args()
         print(data)
         todo = TodoModel(data['desc'], 'false', data['project_id'])
-      
+
         try:
             todo.save_to_db()
         except:

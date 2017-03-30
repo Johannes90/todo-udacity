@@ -2,7 +2,7 @@ import axios from 'axios';
 import Vue from 'vue';
 
 const state = {
-    isLoggedIn: !!localStorage.getItem('token')
+    isLoggedIn: !!localStorage.getItem('access_token')
 }
 
 const mutations = {
@@ -25,9 +25,30 @@ const actions = {
             password: user.password
         })
         .then(function (response) {
-            commit('LOGIN_SUCCESS');
             console.log(response);
         });
+    },
+    login: ({commit}, user) => {
+        axios.post('http://127.0.0.1:5000/auth', {
+            username: user.email,
+            password: user.password
+        })
+        .then(function (response) {
+            localStorage.setItem("access_token", JSON.stringify(response.data.access_token))
+            commit('LOGIN_SUCCESS');
+            console.log(localStorage.getItem("access_token"));
+        });
+    },
+    logout: ({commit}) => {
+        localStorage.removeItem("access_token");
+        commit('LOGOUT');
+    }
+
+}
+
+const getters = {
+    isLoggedIn: state => {
+        return state.isLoggedIn;
     }
 }
 
@@ -35,5 +56,6 @@ const actions = {
 export default {
     state,
     mutations,
-    actions
+    actions,
+    getters
 }

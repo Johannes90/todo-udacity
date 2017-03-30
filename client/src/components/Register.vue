@@ -13,7 +13,8 @@
             <md-button class="md-raised md-warn" @click.native="$router.push('/')">Cancel</md-button>
             <md-button class="md-raised md-primary">Sign Up with Google</md-button>
             <md-button class="md-raised md-primary" @click.native="register()">Sign Up</md-button>
-            <p>Already have an account? <router-link to="/login">Login here</router-link>.</p>
+            <p>Already have an account?
+                <router-link to="/login">Login here</router-link>.</p>
         </form>
     </md-layout>
 </template>
@@ -29,14 +30,17 @@
         methods: {
             register() {
                 this.$store.dispatch('register', {
-                    email: this.email, 
+                    email: this.email,
                     password: this.password
-                    }).then(() => {
-                        this.email='';
-                        this.password='';
-                        this.$router.push("/login")
-                    });            
-                }
+                }).then(() => {
+                    this.$store.dispatch('login', {
+                        email: this.email,
+                        password: this.password
+                    });
+                }).then(() => {
+                    this.$router.push("/inbox")
+                });
+            }
         }
     }
 </script>
