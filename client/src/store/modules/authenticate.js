@@ -39,7 +39,6 @@ const actions = {
             localStorage.setItem("current_user_id", jwtDecode(token).identity);
             localStorage.setItem("access_token", token);
             localStorage.setItem("current_user", user.email);
-            user.router.push('/inbox');
             commit('LOGIN_SUCCESS');
         });
     },

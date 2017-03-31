@@ -7,9 +7,9 @@
             "request": "launch",
             "stopOnEntry": false,
             "pythonPath": "${config:python.pythonPath}",
-            "program": "${workspaceRoot}/server/todo-api/app.py",
+            "program": "${workspaceRoot}/server/app.py",
             "env": {
-                "FLASK_APP": "${workspaceRoot}/server/todo-api/app.py"
+                "FLASK_APP": "${workspaceRoot}/server/app.py"
             },
             "args": [
                 "run",
