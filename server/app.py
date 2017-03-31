@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_restful import Api
 from flask_jwt import JWT
-from flask_bcrypt import Bcrypt
+from flask_cors import CORS, cross_origin
 
 from security import authenticate, identity
 from resources.todo import Todos
@@ -9,7 +9,8 @@ from resources.todo import Todo
 from resources.project import Projects
 from resources.project import Project
 from resources.user import UserRegister
-from flask_cors import CORS, cross_origin
+from resources.user import Users
+
 
 
 app = Flask(__name__)
@@ -20,8 +21,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.secret_key = 'thisisextremelysafe'
 
 api = Api(app)
-jwt = JWT(app, authenticate, identity)
-bcrypt = Bcrypt(app)
+
 
 
 @app.before_first_request
@@ -32,7 +32,7 @@ def create_tables():
     db.create_all()
     print("Tables created")
 
-
+jwt = JWT(app, authenticate, identity)
 
 api.add_resource(Todos, '/todos')
 api.add_resource(Todo, '/todo/<int:id>')
@@ -41,6 +41,7 @@ api.add_resource(Projects, '/projects')
 api.add_resource(Project, '/project/<int:id>')
 
 api.add_resource(UserRegister, '/register')
+api.add_resource(Users, '/users')
 
 
 if __name__ == '__main__':

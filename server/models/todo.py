@@ -24,11 +24,11 @@ class TodoModel(db.Model):
 
     def json(self):
         return {'id': self.id,
-            'desc': self.desc,
-            'done': self.done,
-            'project': self.project.query.first().name,
-            'created_by': self.user.query.first().username
-            }
+                'desc': self.desc,
+                'done': self.done,
+                'project': self.project.query.first().name,
+                'created_by': self.user.query.first().username
+               }
 
     @classmethod
     def find_by_id(cls, id):

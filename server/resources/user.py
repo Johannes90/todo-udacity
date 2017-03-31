@@ -27,4 +27,12 @@ class UserRegister(Resource):
         user = UserModel(data['username'], data['password'])
         user.save_to_db()
 
-        return {user.json()}, 201
+        return user.json(), 201
+
+
+class Users(Resource):
+    """
+        Class that handles get requests for all users.
+    """
+    def get(self):
+        return {'users': list(map(lambda x: x.json(), UserModel.query.all()))}

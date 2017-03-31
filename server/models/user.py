@@ -1,5 +1,5 @@
 from db import db
-from flask_bcrypt import bcrypt
+
 
 class UserModel(db.Model):
     __tablename__ = 'users'
@@ -12,8 +12,9 @@ class UserModel(db.Model):
 
     def __init__(self, username, password):
         self.username = username
-        self.password = bcrypt.generate_password_hash(
-            password).decode('utf-8')
+        self.password = password
+        # self.password = bcrypt.generate_password_hash(
+        # password).decode('utf-8')
 
     def json(self):
         return {
