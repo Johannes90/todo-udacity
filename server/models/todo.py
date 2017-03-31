@@ -26,8 +26,8 @@ class TodoModel(db.Model):
         return {'id': self.id,
                 'desc': self.desc,
                 'done': self.done,
-                'project': self.project.query.first().name,
-                'created_by': self.user.query.first().username
+                'project': self.project.query.filter_by(id=self.project_id).first().name,
+                'created_by': self.user.query.filter_by(id=self.user_id).first().username
                }
 
     @classmethod

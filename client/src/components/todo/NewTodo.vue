@@ -31,7 +31,9 @@
             addTodo() {
                 let desc = this.desc;
                 let project_id = this.project_id
-                this.$store.dispatch('addTodo', {desc: desc, project_id: project_id});
+                let user_id = parseInt(localStorage.getItem("current_user_id"))
+                console.log(user_id)
+                this.$store.dispatch('addTodo', {desc: desc, project_id: project_id, user_id: user_id});
                 this.desc = '';
                 this.project_id = 0;
             }

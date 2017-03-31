@@ -12,8 +12,9 @@
             </md-input-container>
             <md-button class="md-raised md-warn" @click.native="$router.push('/')">Cancel</md-button>
             <md-button class="md-raised md-primary">Login with Google</md-button>
-            <md-button class="md-raised md-primary" @click.native="login">Login</md-button>
-            <p>Need an account? <router-link to="/register">Sign Up here</router-link>.</p>
+            <md-button class="md-raised md-primary" @click.native.prevent="login">Login</md-button>
+            <p>Need an account?
+                <router-link to="/register">Sign Up here</router-link>.</p>
         </form>
     </md-layout>
 </template>
@@ -30,10 +31,9 @@
             login() {
                 this.$store.dispatch('login', {
                     email: this.email,
-                    password: this.password
-                }).then(() => {
-                    this.$router.push("/inbox");
-                }) 
+                    password: this.password,
+                    router: this.$router
+                });
             }
         }
     }

@@ -1,5 +1,6 @@
 import axios from 'axios';
 import Vue from 'vue';
+import jwtDecode from 'jwt-decode';
 
 const state = {
     isLoggedIn: !!localStorage.getItem('access_token')
@@ -34,12 +35,17 @@ const actions = {
             password: user.password
         })
         .then(function (response) {
-            localStorage.setItem("access_token", response.data.access_token)
+            let token = response.data.access_token;
+            localStorage.setItem("current_user_id", jwtDecode(token).identity);
+            localStorage.setItem("access_token", token);
+            localStorage.setItem("current_user", user.email);
+            user.router.push('/inbox');
             commit('LOGIN_SUCCESS');
         });
     },
     logout: ({commit}) => {
         localStorage.removeItem("access_token");
+        localStorage.removeItem("current_user_id");
         commit('LOGOUT');
     }
 
