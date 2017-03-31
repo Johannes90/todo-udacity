@@ -42,8 +42,13 @@ const actions = {
         });
     },
     deleteTodo: ({commit}, todo) => {
-        console.log(todo.id)
-        axios.delete('http://127.0.0.1:5000/todo/' + todo.id)
+        let jwt = "JWT " + localStorage.getItem("access_token")
+        axios.delete('http://127.0.0.1:5000/todo/' + todo.id, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': jwt
+            }
+        })
         .then(function (response) {
             commit('DELETE_TODO', todo);
         });

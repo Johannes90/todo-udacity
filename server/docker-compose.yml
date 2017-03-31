@@ -1,0 +1,24 @@
+version: '2'
+services:
+    db:
+        restart: always
+        image: postgres:9.6
+        ports:
+            - 5432:5432
+        environment:
+            - POSTGRES_USER=dev
+            - POSTGRES_PASSWORD=dev
+            - POSTGRES_DB=todo
+        volumes:
+            - ./data/postgres:/var/lib/postgresql/data
+
+    web:
+        restart: always
+        build: .
+        command: python app.py runserver -h 0.0.0.0 -p 5000
+        volumes:
+            - .:/server
+        ports:
+            - 5000:5000
+        depends_on:
+            - db

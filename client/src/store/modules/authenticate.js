@@ -34,9 +34,8 @@ const actions = {
             password: user.password
         })
         .then(function (response) {
-            localStorage.setItem("access_token", JSON.stringify(response.data.access_token))
+            localStorage.setItem("access_token", response.data.access_token)
             commit('LOGIN_SUCCESS');
-            console.log(localStorage.getItem("access_token"));
         });
     },
     logout: ({commit}) => {
