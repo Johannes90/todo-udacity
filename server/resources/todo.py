@@ -18,7 +18,8 @@ class Todo(Resource):
                         required=True,
                         help="This field cannot be left blank!"
                         )
-
+    
+    @jwt_required()
     def get(self, id):
         todo = TodoModel.find_by_id(id)
         if todo:
@@ -29,25 +30,27 @@ class Todo(Resource):
     def delete(self, id):
         print(current_identity)
         todo = TodoModel.find_by_id(id)
-        # Implement Check to get current user = todo.creator
+
         if todo:
-            if current_identity.username == todo.created_by:
+            if current_identity.id == todo.user_id:
                 todo.delete_from_db()
+                return {'message': 'Todo deleted'}
             else:
                 return {'message': 'Sorry, this todo was not created by you.'}
-            return {'message': 'Todo deleted'}
+        return {'message': 'Todo does not exist.'}
 
     @jwt_required()
     def put(self, id):
         data = Todo.parser.parse_args()
-
         todo = TodoModel.find_by_id(id)
-
         if TodoModel.find_by_id(id):
-            todo.desc = data['desc']
-            todo.done = data['done']
-            todo.save_to_db()
-            return todo.json()
+            if current_identity.id == todo.user_id:
+                todo.desc = data['desc']
+                todo.done = data['done']
+                todo.save_to_db()
+                return todo.json()
+            else:
+                return {'message': 'Sorry, this todo was not created by you.'}
         else:
             return {'message': 'Todo not found'}, 404
 
@@ -69,10 +72,12 @@ class Todos(Resource):
                         required=True,
                         help="This field cannot be left blank!"
                         )
-
+    
+    @jwt_required()
     def get(self):
         return {'todos': list(map(lambda x: x.json(), TodoModel.query.all()))}
 
+    @jwt_required()
     def post(self):
         data = Todos.parser.parse_args()
         todo = TodoModel(desc=data['desc'], done='false',
