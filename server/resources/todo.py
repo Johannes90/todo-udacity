@@ -73,7 +73,6 @@ class Todos(Resource):
                         help="This field cannot be left blank!"
                         )
     
-    @jwt_required()
     def get(self):
         return {'todos': list(map(lambda x: x.json(), TodoModel.query.all()))}
 

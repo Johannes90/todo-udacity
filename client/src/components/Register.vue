@@ -3,12 +3,12 @@
         <form class="form" novalidate @submit.stop.prevent="submit">
             <h1>Sign Up Now</h1>
             <md-input-container>
-                <label>Email Address</label>
-                <md-input placeholder="Email" v-model="email"></md-input>
+                <label>Username</label>
+                <md-input v-model="username" required></md-input>
             </md-input-container>
             <md-input-container>
                 <label>Password</label>
-                <md-input type="password" v-model="password"></md-input>
+                <md-input type="password" v-model="password" required></md-input>
             </md-input-container>
             <md-button class="md-raised md-warn" @click.native="$router.push('/')">Cancel</md-button>
             <md-button class="md-raised md-primary">Sign Up with Google</md-button>
@@ -23,18 +23,18 @@
     export default {
         data() {
             return {
-                email: '',
+                username: '',
                 password: ''
             };
         },
         methods: {
             register() {
                 this.$store.dispatch('register', {
-                    email: this.email,
+                    username: this.username,
                     password: this.password
                 }).then(() => {
                     this.$store.dispatch('login', {
-                        email: this.email,
+                        username: this.username,
                         password: this.password
                     });
                 }).then(() => {

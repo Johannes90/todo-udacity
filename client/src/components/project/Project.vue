@@ -13,9 +13,6 @@
         @blur.native="editProject(project)" 
         v-model="project.name"></md-input>
       </md-input-container>
-      <md-button @click.native="deleteProject(project)" class="md-icon-button md-list-action">
-        <md-icon class="md-fab">clear</md-icon>
-      </md-button>
     </md-list-item>
 </template>
 
@@ -23,9 +20,6 @@
     export default {
         props: ['project'],
         methods: {
-          deleteProject(project) {
-            this.$store.dispatch('deleteProject', project)
-          },
           editProject(project) {
             this.$store.dispatch('editProject', project)
           }

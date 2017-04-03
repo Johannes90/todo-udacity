@@ -18,12 +18,15 @@
     export default {
         data() {
             return {
-                current_user: localStorage.getItem("current_user")
+                
             }
         },
         computed: {
             isLoggedIn() {
                 return this.$store.getters.isLoggedIn;
+            },
+            current_user() {
+                return this.$store.getters.current_user;
             }
         },
         methods: {

@@ -42,12 +42,6 @@ const actions = {
         }).then(function (response) {
             commit('EDIT_PROJECT', project)
         });
-    },
-    deleteProject: ({ commit }, project) => {
-        axios.delete('http://127.0.0.1:5000/project/' + project.id)
-        .then(function (response) {
-            commit('DELETE_PROJECT', project);
-        });
     }   
 }
 
