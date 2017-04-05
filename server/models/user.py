@@ -20,7 +20,6 @@ class UserModel(db.Model):
         return {
             'id': self.id,
             'username': self.username,
-            'password': self.password,
             'todos': [todo.json() for todo in self.todos.all()]
         }
     def save_to_db(self):

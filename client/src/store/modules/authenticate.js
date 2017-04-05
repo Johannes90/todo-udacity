@@ -4,10 +4,14 @@ import jwtDecode from 'jwt-decode';
 
 const state = {
     isLoggedIn: !!localStorage.getItem('access_token'),
-    current_user: ''
+    current_user: '',
+    users: []
 }
 
 const mutations = {
+    'SET_USERS' (state, users) {
+        state.users = users;
+    },
     'LOGIN_PENDING' (state) {
         state.pending = true;
     },
@@ -23,6 +27,12 @@ const mutations = {
 }
 
 const actions = {
+    initUsers: ({commit}) => {
+        axios.get('http://127.0.0.1:5000/users')
+        .then(function (response) {
+            commit('SET_USERS', response.data.users);
+        }); 
+    },
     register: ({commit}, user) => {
         axios.post('http://127.0.0.1:5000/register', {
             username: user.username,
@@ -60,6 +70,11 @@ const getters = {
     },
     current_user: state => {
         return state.current_user;
+    },
+    users: state => {
+        return state.users.sort(function (a,b) {
+            return a.id - b.id
+        });
     }
 }
 

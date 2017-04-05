@@ -17,6 +17,7 @@
     created() {
       this.$store.dispatch('initTodos');
       this.$store.dispatch('initProjects');
+      this.$store.dispatch('initUsers');
     }
   }
 </script>
