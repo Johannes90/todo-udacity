@@ -5,8 +5,9 @@ import VueMaterial from 'vue-material';
 import VeeValidate from 'vee-validate';
 import 'vue-material/dist/vue-material.css';
 import store from './store/store';
+import GSignInButton from 'vue-google-signin-button'
 
-
+Vue.use(GSignInButton)
 Vue.use(VueMaterial);
 Vue.use(VeeValidate);
 

@@ -4,6 +4,7 @@ from flask import Flask
 from flask_restful import Api
 from flask_jwt import JWT
 from flask_cors import CORS, cross_origin
+from flask_bcrypt import Bcrypt
 
 # Importing JWT functions
 from security import authenticate, identity
@@ -15,6 +16,7 @@ from resources.project import Projects
 from resources.project import Project
 from resources.user import UserRegister
 from resources.user import Users
+from resources.user import GoogleSignUp
 
 # Creating the Flask Instance
 app = Flask(__name__)
@@ -30,6 +32,9 @@ app.secret_key = 'thisisextremelysafe'
 # Wrapping the app instance with the Flask-Restful extension to enable API features
 api = Api(app)
 
+# Adding the flask-bcrypt extension
+
+bcrypt = Bcrypt(app)
 
 # Create database tables before first request (could be improved with migrations)
 @app.before_first_request
@@ -49,8 +54,10 @@ api.add_resource(Todo, '/todo/<int:id>')
 api.add_resource(Projects, '/projects')
 api.add_resource(Project, '/project/<int:id>')
 
+api.add_resource(GoogleSignUp, '/google-sign')
 api.add_resource(UserRegister, '/register')
 api.add_resource(Users, '/users')
+
 
 # Launching the app
 if __name__ == '__main__':

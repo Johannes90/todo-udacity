@@ -5,7 +5,8 @@ import jwtDecode from 'jwt-decode';
 const state = {
     isLoggedIn: !!localStorage.getItem('access_token'),
     current_user: '',
-    users: []
+    users: [],
+    passwordWrong: false
 }
 
 const mutations = {
@@ -23,6 +24,9 @@ const mutations = {
     'LOGOUT' (state) {
         state.isLoggedIn = false;
         state.current_user = ''
+    },
+    'REGISTER' (state, user) {
+        state.users.push(user);
     }
 }
 
@@ -39,20 +43,26 @@ const actions = {
             password: user.password
         })
         .then(function (response) {
+            commit('REGISTER', response.data)
             console.log(response);
         });
     },
     login: ({commit}, user) => {
+        console.log(user.password)
         axios.post('http://127.0.0.1:5000/auth', {
             username: user.username,
             password: user.password
         })
         .then(function (response) {
+            console.log(response);
             let token = response.data.access_token;
             localStorage.setItem("current_user_id", jwtDecode(token).identity);
             localStorage.setItem("access_token", token);
             localStorage.setItem("current_user", user.username);
             commit('LOGIN_SUCCESS');
+            Promise.resolve(response.data);
+        }).catch(function (error) {
+            Promise.reject(error);
         });
     },
     logout: ({commit}) => {
@@ -60,6 +70,14 @@ const actions = {
         localStorage.removeItem("current_user_id");
         localStorage.removeItem("current_user");
         commit('LOGOUT');
+    },
+    googleSignUp: ({commit}, user) => {
+        console.log(user.username)
+        console.log(user.id_token)
+        axios.post('http://127.0.0.1:5000/google-sign', {
+            username: user.username,
+            id_token: user.id_token
+        })
     }
 
 }

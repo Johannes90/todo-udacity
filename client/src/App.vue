@@ -4,7 +4,6 @@
     <router-view></router-view>
   </div>
 </template>
-
 <script>
   import Header from './components/Header.vue';
   import SideMenu from './components/SideMenu.vue';
