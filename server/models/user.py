@@ -1,4 +1,5 @@
 from db import db
+from flask_bcrypt import generate_password_hash
 
 
 class UserModel(db.Model):
@@ -13,10 +14,8 @@ class UserModel(db.Model):
 
     def __init__(self, username, password=None, oauth=False):
         self.username = username
-        self.password = password
+        self.password = generate_password_hash(password).decode('utf-8')
         self.oauth = oauth
-        # self.password = bcrypt.generate_password_hash(
-        # password).decode('utf-8')
 
     def json(self):
         return {

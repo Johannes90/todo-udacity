@@ -1,6 +1,7 @@
 from werkzeug.security import safe_str_cmp
 from models.user import UserModel
 from oauth2client import client, crypt
+from flask_bcrypt import check_password_hash
 
 def authenticate(username, password):
     """
@@ -17,7 +18,7 @@ def authenticate(username, password):
         return user
     # Otherwise use the password to verify the user
     else:
-        if user and safe_str_cmp(user.password, password):
+        if user and check_password_hash(user.password.encode('utf-8'), password):
             return user
 
 def identity(payload):
