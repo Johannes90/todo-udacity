@@ -20,14 +20,10 @@ from resources.user import GoogleSignUp
 
 # Creating the Flask Instance
 app = Flask(__name__)
+app.config.from_object('config')
 
 # Wrapping the App instance with the CORS module to allow for cross server access
 CORS(app)
-
-# Configuring SQL Alchemy to connect with Postgresql
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://dev:dev@db:5432/todo'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.secret_key = 'thisisextremelysafe'
 
 # Wrapping the app instance with the Flask-Restful extension to enable API features
 api = Api(app)

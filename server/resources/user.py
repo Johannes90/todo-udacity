@@ -1,6 +1,7 @@
 from flask_restful import Resource, reqparse
 from models.user import UserModel
 from oauth2client import client, crypt
+from flask import current_app
 
 
 class GoogleSignUp(Resource):
@@ -25,7 +26,7 @@ class GoogleSignUp(Resource):
         if UserModel.find_by_username(data['username']):
             return {"message": "A user with that username already exists"}, 400
 
-        client_id = '468635640034-rp3e0rdggu885nbvtjvtis70u7g7vt1h.apps.googleusercontent.com'
+        client_id = current_app.config["CLIENT_ID"]
         idinfo = client.verify_id_token(data['id_token'], client_id)
         if idinfo['iss'] not in ['accounts.google.com', 'https://accounts.google.com']:
             raise crypt.AppIdentityError("Wrong issuer.")

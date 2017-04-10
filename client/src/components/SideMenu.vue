@@ -1,6 +1,6 @@
 <template>
     <md-layout md-flex="30">
-      <md-list>
+      <md-list ref="menu">
         <md-subheader>Navigation</md-subheader>
             <md-list-item>
                 <router-link 

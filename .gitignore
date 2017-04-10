@@ -1,4 +1,5 @@
 server/data/
+server/config.py
 client/node_modules/
 client/dist/
 client/npm-debug.log
