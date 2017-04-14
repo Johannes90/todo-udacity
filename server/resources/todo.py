@@ -28,7 +28,6 @@ class Todo(Resource):
 
     @jwt_required()
     def delete(self, id):
-        print(current_identity)
         todo = TodoModel.find_by_id(id)
 
         if todo:
@@ -43,7 +42,7 @@ class Todo(Resource):
     def put(self, id):
         data = Todo.parser.parse_args()
         todo = TodoModel.find_by_id(id)
-        if TodoModel.find_by_id(id):
+        if todo:
             if current_identity.id == todo.user_id:
                 todo.desc = data['desc']
                 todo.done = data['done']
@@ -72,7 +71,7 @@ class Todos(Resource):
                         required=True,
                         help="This field cannot be left blank!"
                         )
-    
+
     def get(self):
         return {'todos': list(map(lambda x: x.json(), TodoModel.query.all()))}
 

@@ -20,7 +20,11 @@
         methods: {
             addProject() {
                 let name = this.name;
-                this.$store.dispatch('addProject', name);
+                let user_id = parseInt(localStorage.getItem("current_user_id"))
+                this.$store.dispatch('addProject', {
+                    name,
+                    user_id
+                });
                 this.name = ''
             }
         }

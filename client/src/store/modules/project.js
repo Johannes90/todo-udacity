@@ -1,5 +1,6 @@
 import axios from 'axios';
 import Vue from 'vue';
+import { authCall, noAuthCall } from '@/config/api_config'
 
 const state = {
     projects: []
@@ -23,22 +24,25 @@ const mutations = {
 
 const actions = {
     initProjects: ({ commit }) => {
-        axios.get('http://127.0.0.1:5000/projects')
+        noAuthCall.get('/projects')
         .then(function (response) {
             commit('SET_PROJECTS', response.data.projects);
         });
     },
-    addProject: ({ commit }, name) => {
-        axios.post('http://127.0.0.1:5000/projects', {
-            name: name
+    addProject: ({ commit }, project) => {
+        authCall.post('/projects', {
+            name: project.name,
+            user_id: project.user_id
         })
         .then(function (response) {
+            console.log(response)
             commit('ADD_PROJECT', {project: response.data});
         });
     },
     editProject: ({ commit }, project) => {
-        axios.put('http://127.0.0.1:5000/project/' + project.id, {
-            name: project.name
+        authCall.put('/project/' + project.id, {
+            name: project.name,
+            user_id: project.user_id
         }).then(function (response) {
             commit('EDIT_PROJECT', project)
         });

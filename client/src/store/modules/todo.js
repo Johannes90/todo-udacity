@@ -1,8 +1,6 @@
 import axios from 'axios';
 import Vue from 'vue';
-
-
-
+import { authCall, noAuthCall } from '@/config/api_config'
 
 
 const state = {
@@ -30,45 +28,41 @@ const mutations = {
 
 const actions = {
     initTodos: ({commit}) => {
-        axios.get('http://127.0.0.1:5000/todos')
+        noAuthCall.get('/todos')
         .then(function (response) {
             commit('SET_TODOS', response.data.todos);
         }); 
     },
     addTodo: ({commit}, { desc, project_id, user_id }) => {
-        let headers = {headers: { 'Content-Type': 'application/json', 'Authorization': "JWT " + localStorage.getItem("access_token")}};
-        axios.post('http://127.0.0.1:5000/todos', {
+        authCall.post('/todos', {
             desc: desc,
             project_id: project_id,
             user_id: user_id
-        }, headers)
+        })
         .then(function (response) {
             commit('ADD_TODO', {todo: response.data});
         });
     },
     deleteTodo: ({commit}, todo) => {
-        let headers = {headers: { 'Content-Type': 'application/json', 'Authorization': "JWT " + localStorage.getItem("access_token")}};
-        axios.delete('http://127.0.0.1:5000/todo/' + todo.id, headers)
+        authCall.delete('/todo/' + todo.id)
         .then(function (response) {
             commit('DELETE_TODO', todo);
         });
     },
     editTodo: ({ commit }, todo) => {
-        let headers = {headers: { 'Content-Type': 'application/json', 'Authorization': "JWT " + localStorage.getItem("access_token")}};
-        axios.put('http://127.0.0.1:5000/todo/' + todo.id, {
+        authCall.put('/todo/' + todo.id, {
             desc: todo.desc,
             done: todo.done
-        }, headers).then(function (response) {
+        }).then(function (response) {
             console.log(todo)
             commit('EDIT_TODO', todo)
         });
     },
     completeTodo: ({ commit }, todo) => {
-        let headers = {headers: { 'Content-Type': 'application/json', 'Authorization': "JWT " + localStorage.getItem("access_token")}};
-        axios.put('http://127.0.0.1:5000/todo/' + todo.id, {
+        authCall.put('/todo/' + todo.id, {
             desc: todo.desc,
             done: todo.done
-        }, headers).then(function (response) {
+        }).then(function (response) {
             console.log(todo)
             commit('COMPLETE_TODO', todo)
         });

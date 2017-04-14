@@ -11,20 +11,31 @@ class ProjectModel(db.Model):
 
     todos = db.relationship('TodoModel', lazy='dynamic')
 
-    def __init__(self, name):
-        self.name = name
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    user = db.relationship('UserModel')
+
+    def __init__(self, name, user_id=None):
+        self.name = name,
+        self.user_id = user_id
 
     def json(self):
-        return {'id': self.id, 'name': self.name, 'todos': [todo.json() for todo in self.todos.all()]}
+        return {
+            'id': self.id,
+            'name': self.name,
+            'user_id': self.user_id,
+            'todos': [todo.json() for todo in self.todos.all()]
+            }
 
     @classmethod
     def find_by_id(cls, id):
         return cls.query.filter_by(id=id).first()
 
+    @classmethod
     def save_to_db(self):
         db.session.add(self)
         db.session.commit()
-
+    
+    @classmethod
     def delete_from_db(self):
         db.session.delete(self)
         db.session.commit()

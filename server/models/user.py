@@ -11,10 +11,14 @@ class UserModel(db.Model):
     oauth = db.Column(db.Boolean())
 
     todos = db.relationship('TodoModel', lazy='dynamic')
+    projects = db.relationship('ProjectModel', lazy='dynamic')
 
     def __init__(self, username, password=None, oauth=False):
         self.username = username
-        self.password = generate_password_hash(password).decode('utf-8')
+        if password:
+            self.password = generate_password_hash(password).decode('utf-8')
+        else:
+            self.password = password
         self.oauth = oauth
 
     def json(self):
@@ -23,6 +27,7 @@ class UserModel(db.Model):
             'username': self.username,
             'todos': [todo.json() for todo in self.todos.all()]
         }
+    @classmethod
     def save_to_db(self):
         db.session.add(self)
         db.session.commit()
