@@ -11,14 +11,25 @@ services:
             - POSTGRES_DB=todo
         volumes:
             - ./data/postgres:/var/lib/postgresql/data
-
+    nginx:
+        restart: always
+        build: ./nginx/
+        ports:
+            - "8080:8080"
+        volumes:
+            - /www/static
+        volumes_from:
+            - web
+        links:
+            - web:web
     web:
         restart: always
         build: .
-        command: python app.py runserver -h 0.0.0.0 -p 5000
+        command: /usr/local/bin/gunicorn -w 2 -b :5000 app:app
+        # command: python app.py runserver -h 0.0.0.0 -p 5000
         volumes:
             - .:/server
-        ports:
-            - 5000:5000
+        expose:
+            - "5000"
         depends_on:
             - db
