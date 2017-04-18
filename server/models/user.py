@@ -27,7 +27,7 @@ class UserModel(db.Model):
             'username': self.username,
             'todos': [todo.json() for todo in self.todos.all()]
         }
-    @classmethod
+  
     def save_to_db(self):
         db.session.add(self)
         db.session.commit()
