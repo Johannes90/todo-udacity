@@ -18,3 +18,5 @@ Flask-Cors==3.0.2
 oauth2client==4.0.0
 Flask-Bcrypt==0.7
 Gunicorn==19.7.1
+Flask-Migrate
+Flask-Script

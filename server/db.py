@@ -1,5 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
 
-# Creating the SQL Alchemy Instance
 
+# Addin the Flask-SQLAlchemy Extension
 db = SQLAlchemy()
