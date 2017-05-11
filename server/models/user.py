@@ -1,8 +1,9 @@
-from db import db
+from models.base import Base
+from models.base import db
 from flask_bcrypt import generate_password_hash
 
 
-class UserModel(db.Model):
+class UserModel(Base):
     __tablename__ = 'users'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -27,15 +28,3 @@ class UserModel(db.Model):
             'username': self.username,
             'todos': [todo.json() for todo in self.todos.all()]
         }
-  
-    def save_to_db(self):
-        db.session.add(self)
-        db.session.commit()
-
-    @classmethod
-    def find_by_username(cls, username):
-        return cls.query.filter_by(username=username).first()
-
-    @classmethod
-    def find_by_id(cls, _id):
-        return cls.query.filter_by(id=_id).first()

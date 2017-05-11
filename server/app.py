@@ -1,15 +1,7 @@
 # Importing Flask and Extensions
 
 from flask import Flask
-from flask_restful import Api
 from flask_jwt import JWT
-from flask_cors import CORS
-from flask_bcrypt import Bcrypt
-from flask_migrate import Migrate
-
-# Importing JWT functions
-from security import authenticate, identity
-
 # Importing Resources
 from resources.todo import Todos
 from resources.todo import Todo
@@ -19,41 +11,53 @@ from resources.user import UserRegister
 from resources.user import Users
 from resources.user import GoogleSignUp
 
-from db import db
+from extensions import (
+    migrate,
+    cors,
+    api,
+    bcrypt
+)
+
+from models.base import db
 
 
-# Creating the Flask Instance
-app = Flask(__name__)
-app.config.from_object('config')
+def create_app():
+    """
+    Create a Flask application using the app factory pattern.
 
+    :param settings_override: Override settings
+    :return: Flask app
+    """
+    app = Flask(__name__)
+    app.config.from_object('config')
+    extensions(app)
+    from security import authenticate, identity
+    JWT(app, authenticate, identity)
+    db.init_app(app)
 
-migrate = Migrate(app, db)
-# Wrapping the App instance with the CORS module to allow for cross server access
-CORS(app)
+    return app
 
-# Wrapping the app instance with the Flask-Restful extension to enable API features
-api = Api(app)
+def extensions(app):
+    """
+    Register 0 or more extensions (mutates the app passed in).
 
-# Adding the flask-bcrypt extension
+    :param app: Flask application instance
+    :return: None
+    """
 
-bcrypt = Bcrypt(app)
+    migrate.init_app(app, db)
+    cors.init_app(app)
+    bcrypt.init_app(app)
+    api.init_app(app)
 
-# Initiation the Flask-JWT Extension
-jwt = JWT(app, authenticate, identity)
+    api.add_resource(Todos, '/todos')
+    api.add_resource(Todo, '/todo/<int:id>')
 
-# Mapping the resources to endpoints with Flask Restful
-api.add_resource(Todos, '/todos')
-api.add_resource(Todo, '/todo/<int:id>')
+    api.add_resource(Projects, '/projects')
+    api.add_resource(Project, '/project/<int:id>')
 
-api.add_resource(Projects, '/projects')
-api.add_resource(Project, '/project/<int:id>')
+    api.add_resource(GoogleSignUp, '/google-sign')
+    api.add_resource(UserRegister, '/register')
+    api.add_resource(Users, '/users')
 
-api.add_resource(GoogleSignUp, '/google-sign')
-api.add_resource(UserRegister, '/register')
-api.add_resource(Users, '/users')
-
-db.init_app(app)
-# Launching the app
-if __name__ == '__main__':
-    app.run()
 

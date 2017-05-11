@@ -17,6 +17,7 @@ This project was created for the Full Stack Developer Nanodegree from Udacity. T
 4. Run 'docker-compose up' - this will donwload the postgres and python images and create the server environment. The first time this task may take several minutes, but launches fast the second time.
 5. Your server should now be running and logging the debug messages from flask.
 6. Navigate to the client directory 'cd ../client'
+7. Rename the prod.env.example.js to prod.env.js and enter your Google Client ID.
 7. Run 'npm install' to install all dependencies for the client
 8. Run 'npm run dev' - this should open a new browser tab that navigates you to the home screen
 

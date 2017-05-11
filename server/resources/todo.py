@@ -18,7 +18,7 @@ class Todo(Resource):
                         required=True,
                         help="This field cannot be left blank!"
                         )
-    
+
     @jwt_required()
     def get(self, id):
         todo = TodoModel.find_by_id(id)
