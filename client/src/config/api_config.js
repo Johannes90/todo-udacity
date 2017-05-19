@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-export const authCall = axios.create({
-    baseURL: 'http://127.0.0.1:5000',
+export let authCall = axios.create({
+    baseURL: 'http://127.0.0.1:8080/api',
     headers: { 
         'Content-Type': 'application/json', 
         'Authorization': "JWT " + localStorage.getItem("access_token")
@@ -9,8 +9,8 @@ export const authCall = axios.create({
 });
 
 
-export const noAuthCall = axios.create({
-    baseURL: 'http://127.0.0.1:5000',
+export let noAuthCall = axios.create({
+    baseURL: 'http://127.0.0.1:8080/api',
     headers: { 
         'Content-Type': 'application/json'
     }

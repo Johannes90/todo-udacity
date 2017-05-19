@@ -2,6 +2,7 @@
 
 from flask import Flask
 from flask_jwt import JWT
+
 # Importing Resources
 from resources.todo import Todos
 from resources.todo import Todo
@@ -30,12 +31,23 @@ def create_app():
     """
     app = Flask(__name__)
     app.config.from_object('config')
-    extensions(app)
+
     from security import authenticate, identity
     JWT(app, authenticate, identity)
+
+    routes(app)
+    
+    extensions(app)
     db.init_app(app)
 
+    
+
+    @app.route('/')
+    def hello_world():
+        return 'Hello, World!'
+
     return app
+
 
 def extensions(app):
     """
@@ -50,6 +62,14 @@ def extensions(app):
     bcrypt.init_app(app)
     api.init_app(app)
 
+
+def routes(app):
+    """
+    Register all api endpoints.
+
+    :param app: Flask application instance
+    :return: None
+    """
     api.add_resource(Todos, '/todos')
     api.add_resource(Todo, '/todo/<int:id>')
 
@@ -59,5 +79,4 @@ def extensions(app):
     api.add_resource(GoogleSignUp, '/google-sign')
     api.add_resource(UserRegister, '/register')
     api.add_resource(Users, '/users')
-
 

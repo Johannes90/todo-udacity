@@ -1,6 +1,7 @@
 import axios from 'axios';
 import Vue from 'vue';
 import jwtDecode from 'jwt-decode';
+import { authCall, noAuthCall} from '@/config/api_config'
 
 const state = {
     isLoggedIn: !!localStorage.getItem('access_token'),
@@ -32,13 +33,13 @@ const mutations = {
 
 const actions = {
     initUsers: ({commit}) => {
-        axios.get('http://127.0.0.1:5000/users')
+        noAuthCall.get('/users')
         .then(function (response) {
             commit('SET_USERS', response.data.users);
         }); 
     },
     register: ({commit}, user) => {
-        axios.post('http://127.0.0.1:5000/register', {
+        noAuthCall.post('/register', {
             username: user.username,
             password: user.password
         })
@@ -49,7 +50,7 @@ const actions = {
     },
     login: ({commit}, user) => {
         console.log(user.password)
-        axios.post('http://127.0.0.1:5000/auth', {
+        noAuthCall.post('/auth', {
             username: user.username,
             password: user.password
         })
@@ -74,7 +75,7 @@ const actions = {
     googleSignUp: ({commit}, user) => {
         console.log(user.username)
         console.log(user.id_token)
-        axios.post('http://127.0.0.1:5000/google-sign', {
+        noAuthCall.post('/google-sign', {
             username: user.username,
             id_token: user.id_token
         })

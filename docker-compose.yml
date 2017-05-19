@@ -17,11 +17,11 @@ services:
         ports:
             - "8080:8080"
         volumes:
-            - /client/dist
+            - ./client/dist:/etc/nginx/html
         volumes_from:
             - web
         links:
-            - web:web
+            - web:api
     web:
         restart: always
         build: ./server
@@ -30,8 +30,5 @@ services:
             - ./server:/server
         expose:
             - "5000"
-        environment:
-            - FLASK_APP=/server/wsgi.py
-            - FLASK_DEBUG=1
         depends_on:
             - db

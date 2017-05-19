@@ -28,3 +28,7 @@ class UserModel(Base):
             'username': self.username,
             'todos': [todo.json() for todo in self.todos.all()]
         }
+    
+    @classmethod
+    def find_by_username(cls, username):
+        return cls.query.filter_by(username=username).first()

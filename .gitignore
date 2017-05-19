@@ -1,4 +1,4 @@
-server/data/
+data/
 server/config.py
 client/node_modules/
 client/dist/
