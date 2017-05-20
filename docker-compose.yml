@@ -25,7 +25,7 @@ services:
     web:
         restart: always
         build: ./server
-        command: bash -c "/usr/local/bin/gunicorn -w 2 -b :5000 wsgi:app"
+        command: bash -c "export config=/server/config.py && /usr/local/bin/gunicorn -w 2 -b :5000 wsgi:app"
         volumes:
             - ./server:/server
         expose:

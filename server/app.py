@@ -36,15 +36,9 @@ def create_app():
     JWT(app, authenticate, identity)
 
     routes(app)
-    
+
     extensions(app)
     db.init_app(app)
-
-    
-
-    @app.route('/')
-    def hello_world():
-        return 'Hello, World!'
 
     return app
 
