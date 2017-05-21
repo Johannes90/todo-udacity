@@ -39,3 +39,15 @@ The json endpoints are protected by a JSON Web token. You first have to call /go
 * /project/<int:id> - GET, DELETE and PUT
 
 See the relevant resources and app.py for which values to send to the endpoints.
+
+## Deployement Notes
+
+The application is deployed on Amazon lightsail with the following IP address:
+
+http://34.200.103.112/
+
+The ssh port to connect to is 2200 and the grader user is created for accessing the server. The firewalls and permissions are created as defined in the Udacity Rubrik.
+
+The app is hosted by an Nginx server that reverse-proxies a Gunicorn server to serve the Flask app, as well as hosts the static files from the Vue app. This setup is configured with docker compose and seperate images for each server.
+
+I installed docker, docker-compose, and NPM to configure the setup.
